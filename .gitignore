@@ -1,0 +1,26 @@
+# Environment
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build
+dist/
+*.egg-info/
+.hatch/
+
+# Data (gitignored — large and local)
+data/repos/
+data/tracking.db
+data/*.db
+
+# HuggingFace model cache
+.cache/
+
+# OS
+.DS_Store
