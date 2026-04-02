@@ -17,7 +17,8 @@ No external APIs. Everything runs on the local machine.
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+ (developed on 3.10.7). Do not raise the minimum to 3.11+ without
+  testing — the `requires-python` field in `pyproject.toml` reflects this.
 - Docker + Docker Compose (for Qdrant and Redis Stack)
 - Ollama running locally with `deepseek-coder:6.7b` pulled
 
@@ -83,15 +84,39 @@ src/rag_assistant/
 | Phase | Status | What |
 |-------|--------|------|
 | 1 | ✅ | Foundation: config, models, scaffolding |
-| 2 | ⬜ | Embedding |
-| 3 | ⬜ | Chunking (AST + sliding window) |
-| 4 | ⬜ | Retrieval (Qdrant + reranker) |
+| 2 | ✅ | Embedding |
+| 3 | ✅ | Chunking (AST + sliding window) |
+| 4 | ✅ | Retrieval (Qdrant + reranker) |
 | 5 | ⬜ | Ingestion pipeline |
 | 6 | ⬜ | Generation (Ollama + citations) |
 | 7 | ⬜ | Caching (Redis two-level) |
 | 8 | ⬜ | API layer |
 | 9 | ⬜ | Evaluation pipeline |
 | 10 | ⬜ | Polish (README, Makefile, lint) |
+
+## Dependency Notes
+
+- `torch` is pinned to 2.7.1 to match the system `torchvision` installation.
+  Changing it will cause a `torchvision::nms` runtime error.
+- `ollama` is pinned to 0.6.1 — older versions conflict with `httpx>=0.28`.
+- `qdrant-client` is used without the `[fastembed]` extra.
+
+## Qdrant Point IDs
+
+Qdrant requires point IDs to be unsigned integers or UUIDs. Our chunk IDs are
+16-char hex strings, so we convert them with `int(chunk_id, 16)` on every
+upsert, search, and delete call. The original string ID is preserved in the
+point payload so `CodeChunk` can be reconstructed from search results.
+
+## Chunking Behavior
+
+- AST chunker emits a whole class as one chunk if it fits within `max_tokens`.
+  It only recurses into individual methods when the class is too large.
+- `SlidingWindowChunker` requires `overlap_tokens > 0` to produce overlapping
+  chunks — zero overlap is intentionally non-overlapping and is only used in tests.
+- tiktoken tokenizes compound identifiers (e.g. `word0_0`) as multiple tokens.
+  Test fixtures that need predictable token counts should use single-character
+  repeated tokens (`"a a a a a"`) rather than multi-part words.
 
 ## Environment Variables
 
