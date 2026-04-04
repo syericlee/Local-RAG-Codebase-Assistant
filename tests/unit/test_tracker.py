@@ -1,6 +1,6 @@
 import pytest
 
-from rag_assistant.ingestion.tracker import RepoDiff, SQLiteTracker
+from rag_assistant.ingestion.tracker import SQLiteTracker
 
 REPO_URL = "https://github.com/foo/bar"
 

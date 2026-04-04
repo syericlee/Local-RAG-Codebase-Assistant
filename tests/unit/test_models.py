@@ -1,11 +1,8 @@
 from datetime import datetime
 
-import pytest
-
 from rag_assistant.models.api import Citation, IndexRequest, JobStatus, QueryRequest, QueryResponse
 from rag_assistant.models.chunk import ChunkType, CodeChunk
 from rag_assistant.models.search import RerankedResult, RetrievalResponse, SearchResult
-
 
 # ---------------------------------------------------------------------------
 # Helpers

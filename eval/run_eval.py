@@ -13,7 +13,6 @@ import asyncio
 import dataclasses
 import json
 import logging
-import sys
 from pathlib import Path
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")

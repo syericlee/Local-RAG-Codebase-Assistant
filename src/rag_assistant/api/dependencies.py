@@ -33,7 +33,6 @@ SettingsDep = Annotated[Settings, Depends(get_settings_dep)]
 # ---------------------------------------------------------------------------
 
 def get_vector_store(settings: SettingsDep) -> QdrantStore:
-    from fastapi import Request
     # Resolved via app.state in lifespan; re-exported here for type safety
     raise NotImplementedError("Use app.state.vector_store")
 

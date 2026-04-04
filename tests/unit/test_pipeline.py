@@ -5,14 +5,13 @@ tests run without any live services or model downloads.
 """
 from __future__ import annotations
 
-import asyncio
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import numpy as np
 import pytest
 
-from rag_assistant.ingestion.pipeline import IngestionPipeline, PipelineProgress, PipelineResult
+from rag_assistant.ingestion.pipeline import IngestionPipeline, PipelineProgress
 from rag_assistant.ingestion.tracker import SQLiteTracker
 from rag_assistant.models.chunk import ChunkType, CodeChunk
 

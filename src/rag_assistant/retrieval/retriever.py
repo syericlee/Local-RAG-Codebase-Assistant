@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import time
-from typing import Optional
 
 import tiktoken
 
@@ -39,8 +38,8 @@ class Retriever:
     async def retrieve(
         self,
         query: str,
-        repo_url: Optional[str] = None,
-        top_k: Optional[int] = None,
+        repo_url: str | None = None,
+        top_k: int | None = None,
     ) -> RetrievalResponse:
         effective_top_n = top_k or self._rerank_top_n
 

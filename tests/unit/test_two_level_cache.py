@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
+import fakeredis.aioredis
 import numpy as np
 import pytest
-import fakeredis.aioredis
 
 from rag_assistant.cache.redis_cache import TwoLevelCache, _query_key
 from rag_assistant.models.api import Citation, QueryResponse

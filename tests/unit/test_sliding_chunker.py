@@ -1,4 +1,3 @@
-import pytest
 
 from rag_assistant.ingestion.sliding_chunker import SlidingWindowChunker
 from rag_assistant.models.chunk import ChunkType

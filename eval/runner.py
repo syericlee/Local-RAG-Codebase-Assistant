@@ -5,7 +5,6 @@ import json
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 from eval.metrics import (
     EvalReport,
@@ -25,7 +24,7 @@ class EvalItem:
     question: str
     relevant_chunk_ids: list[str]
     ground_truth_answer: str
-    repo_url: Optional[str] = None
+    repo_url: str | None = None
 
 
 def load_dataset(path: Path) -> list[EvalItem]:

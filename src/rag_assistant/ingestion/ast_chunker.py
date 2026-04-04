@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 from functools import lru_cache
-from typing import Optional
 
 import tiktoken
 from tree_sitter import Language, Node, Parser
@@ -77,7 +76,7 @@ def _count_tokens(text: str) -> int:
     return len(_TOKENIZER.encode(text, disallowed_special=()))
 
 
-def _get_symbol_name(node: Node, source_bytes: bytes) -> Optional[str]:
+def _get_symbol_name(node: Node, source_bytes: bytes) -> str | None:
     """Return the symbol name for a chunking node, or None if not found."""
     # decorated_definition wraps a function/class — delegate to the inner node
     if node.type == "decorated_definition":

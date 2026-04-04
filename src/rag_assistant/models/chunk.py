@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel
 
@@ -24,7 +23,7 @@ class CodeChunk(BaseModel):
     end_line: int
     language: str       # "python", "javascript", "typescript", "go", "rust", "unknown"
     chunk_type: ChunkType
-    symbol_name: Optional[str] = None   # function/class name if AST-extracted
+    symbol_name: str | None = None   # function/class name if AST-extracted
     repo_url: str
     file_hash: str      # sha256 of the source file at index time
 

@@ -1,4 +1,3 @@
-import pytest
 
 from rag_assistant.ingestion.ast_chunker import ASTChunker
 from rag_assistant.models.chunk import ChunkType

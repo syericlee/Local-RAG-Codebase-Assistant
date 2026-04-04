@@ -2,10 +2,8 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Generator, Optional
 
 
 @dataclass
@@ -65,7 +63,7 @@ class SQLiteTracker:
     # Read
     # ------------------------------------------------------------------
 
-    def get_file_record(self, repo_url: str, file_path: str) -> Optional[FileRecord]:
+    def get_file_record(self, repo_url: str, file_path: str) -> FileRecord | None:
         row = self._conn.execute(
             "SELECT * FROM indexed_files WHERE repo_url = ? AND file_path = ?",
             (repo_url, file_path),

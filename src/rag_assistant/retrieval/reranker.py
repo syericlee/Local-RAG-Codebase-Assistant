@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 from sentence_transformers import CrossEncoder
 
 from rag_assistant.models.search import RerankedResult, SearchResult
@@ -17,7 +15,7 @@ class CrossEncoderReranker:
 
     def __init__(self, model_name: str) -> None:
         self._model_name = model_name
-        self._model: Optional[CrossEncoder] = None
+        self._model: CrossEncoder | None = None
 
     def _get_model(self) -> CrossEncoder:
         if self._model is None:
@@ -44,7 +42,7 @@ class CrossEncoderReranker:
                 vector_score=r.vector_score,
                 rerank_score=score,
             )
-            for r, score in zip(results, scores)
+            for r, score in zip(results, scores, strict=False)
         ]
         reranked.sort(key=lambda x: x.rerank_score, reverse=True)
         return reranked[:top_n]

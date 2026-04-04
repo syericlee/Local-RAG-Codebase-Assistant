@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timezone
-from typing import Optional
 
 from redis.asyncio import Redis
 
@@ -58,14 +57,14 @@ class RedisJobStore:
     # Read
     # ------------------------------------------------------------------
 
-    async def get_job(self, job_id: str) -> Optional[JobStatus]:
+    async def get_job(self, job_id: str) -> JobStatus | None:
         """Return the current JobStatus, or None if not found."""
         data = await self._redis.hgetall(_job_key(job_id))
         if not data:
             return None
         return self._deserialize(data)
 
-    async def get_running_job_for_repo(self, repo_url: str) -> Optional[str]:
+    async def get_running_job_for_repo(self, repo_url: str) -> str | None:
         """Return the job_id of any currently running job for repo_url, or None."""
         # Scan all job keys — acceptable since job count is small
         async for key in self._redis.scan_iter(f"{_JOB_PREFIX}*"):

@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Optional
 
 from rag_assistant.config import Settings
 from rag_assistant.embedding.embedder import CodeEmbedder
-from rag_assistant.models.chunk import CodeChunk
 from rag_assistant.retrieval.vector_store import QdrantStore
 
 from .chunker import CodeChunker
@@ -66,8 +65,8 @@ class IngestionPipeline:
         self,
         settings: Settings,
         vector_store: QdrantStore,
-        embedder: Optional[CodeEmbedder] = None,
-        tracker: Optional[SQLiteTracker] = None,
+        embedder: CodeEmbedder | None = None,
+        tracker: SQLiteTracker | None = None,
     ) -> None:
         self._settings = settings
         self._vector_store = vector_store
@@ -86,7 +85,7 @@ class IngestionPipeline:
         repo_url: str,
         branch: str = "main",
         force_reindex: bool = False,
-        progress_callback: Optional[ProgressCallback] = None,
+        progress_callback: ProgressCallback | None = None,
     ) -> PipelineResult:
         """Run the full ingestion pipeline. Returns a PipelineResult summary.
 
@@ -175,12 +174,12 @@ class IngestionPipeline:
         file_paths: list[str],
         current_files: dict[str, tuple[str, float]],
         result: PipelineResult,
-        progress_callback: Optional[ProgressCallback],
+        progress_callback: ProgressCallback | None,
     ) -> None:
         """Chunk, embed, upsert, and track each file in file_paths."""
         progress = PipelineProgress(files_total=len(file_paths))
 
-        for i, rel_path in enumerate(file_paths):
+        for rel_path in file_paths:
             abs_path = repo_path / rel_path
             try:
                 source = abs_path.read_text(encoding="utf-8", errors="replace")
@@ -217,7 +216,7 @@ class IngestionPipeline:
     @staticmethod
     def _maybe_fire_progress(
         progress: PipelineProgress,
-        callback: Optional[ProgressCallback],
+        callback: ProgressCallback | None,
     ) -> None:
         if callback is None:
             return

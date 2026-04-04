@@ -87,12 +87,12 @@ src/rag_assistant/
 | 2 | ✅ | Embedding |
 | 3 | ✅ | Chunking (AST + sliding window) |
 | 4 | ✅ | Retrieval (Qdrant + reranker) |
-| 5 | ⬜ | Ingestion pipeline |
-| 6 | ⬜ | Generation (Ollama + citations) |
-| 7 | ⬜ | Caching (Redis two-level) |
-| 8 | ⬜ | API layer |
-| 9 | ⬜ | Evaluation pipeline |
-| 10 | ⬜ | Polish (README, Makefile, lint) |
+| 5 | ✅ | Ingestion pipeline |
+| 6 | ✅ | Generation (Ollama + citations) |
+| 7 | ✅ | Caching (Redis two-level) |
+| 8 | ✅ | API layer |
+| 9 | ✅ | Evaluation pipeline |
+| 10 | ✅ | Polish (README, Makefile, lint) |
 
 ## Dependency Notes
 

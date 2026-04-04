@@ -2,10 +2,8 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Optional
 
 import numpy as np
-
 
 # ---------------------------------------------------------------------------
 # Retrieval metrics (pure functions, no models needed)
@@ -141,7 +139,7 @@ class ItemResult:
     mrr: float = 0.0
     faithfulness: float = 0.0
     correctness: float = 0.0
-    error: Optional[str] = None
+    error: str | None = None
 
 
 # ---------------------------------------------------------------------------

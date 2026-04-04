@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 from qdrant_client import AsyncQdrantClient
 from qdrant_client.models import (
@@ -79,10 +77,10 @@ class QdrantStore:
         self,
         query_vector: np.ndarray,
         top_k: int,
-        repo_url: Optional[str] = None,
+        repo_url: str | None = None,
     ) -> list[SearchResult]:
         """Vector search, optionally filtered to a single repo."""
-        query_filter: Optional[Filter] = None
+        query_filter: Filter | None = None
         if repo_url is not None:
             query_filter = Filter(
                 must=[FieldCondition(key="repo_url", match=MatchValue(value=repo_url))]

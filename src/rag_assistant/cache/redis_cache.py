@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import struct
 import uuid
-from typing import Optional
 
 import numpy as np
 from redis.asyncio import Redis
@@ -86,7 +84,7 @@ class TwoLevelCache:
 
     async def get(
         self, query: str, query_embedding: np.ndarray
-    ) -> tuple[Optional[QueryResponse], str]:
+    ) -> tuple[QueryResponse | None, str]:
         """Look up a query in the cache.
 
         Returns:
@@ -104,20 +102,20 @@ class TwoLevelCache:
 
         return None, "miss"
 
-    async def _get_exact(self, query: str) -> Optional[QueryResponse]:
+    async def _get_exact(self, query: str) -> QueryResponse | None:
         key = _query_key(query)
         raw = await self._redis.get(key)
         if raw is None:
             return None
         return QueryResponse.model_validate_json(raw)
 
-    async def _get_semantic(self, embedding: np.ndarray) -> Optional[QueryResponse]:
+    async def _get_semantic(self, embedding: np.ndarray) -> QueryResponse | None:
         embedding_bytes = _pack_embedding(embedding)
 
         try:
             results = await self._redis.execute_command(
                 "FT.SEARCH", _SEM_INDEX,
-                f"*=>[KNN 1 @embedding $vec AS score]",
+                "*=>[KNN 1 @embedding $vec AS score]",
                 "PARAMS", "2", "vec", embedding_bytes,
                 "SORTBY", "score",
                 "RETURN", "2", "response", "score",
@@ -131,7 +129,7 @@ class TwoLevelCache:
             return None
 
         fields = results[2]
-        field_dict = dict(zip(fields[::2], fields[1::2]))
+        field_dict = dict(zip(fields[::2], fields[1::2], strict=False))
 
         score_raw = field_dict.get(b"score")
         if score_raw is None:

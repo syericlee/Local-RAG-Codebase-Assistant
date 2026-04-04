@@ -1,6 +1,6 @@
-from .chunk import CodeChunk, ChunkType
-from .search import SearchResult, RerankedResult, RetrievalResponse
-from .api import Citation, QueryRequest, QueryResponse, IndexRequest, JobStatus
+from .api import Citation, IndexRequest, JobStatus, QueryRequest, QueryResponse
+from .chunk import ChunkType, CodeChunk
+from .search import RerankedResult, RetrievalResponse, SearchResult
 
 __all__ = [
     "CodeChunk",

@@ -1,6 +1,6 @@
 from rag_assistant.generation.prompt import PromptBuilder
 from rag_assistant.models.chunk import ChunkType, CodeChunk
-from rag_assistant.models.search import RerankedResult, SearchResult
+from rag_assistant.models.search import RerankedResult
 
 REPO_URL = "https://github.com/foo/bar"
 
